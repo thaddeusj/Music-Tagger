@@ -81,6 +81,8 @@ namespace WpfApplication1
             }
         }
 
+        //Filenames are stored with FULL PATH
+
         public string File_Name_Formatted { get; set; }
 
         private string file_Name_Original;

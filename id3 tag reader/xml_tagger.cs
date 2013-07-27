@@ -23,7 +23,7 @@ namespace WpfApplication1
                     string xml = "";
 
                     XElement elements = new XElement("directory",
-                                            tags.Keys.Select(key => new XElement("file", new XAttribute("path", directory + @"\" + tags[key].File_Name_Original),
+                                            tags.Keys.Select(key => new XElement("file", new XAttribute("path", tags[key].File_Name_Original),
                                                                                                      new XElement("artist", tags[key].Artist),
                                                                                                      new XElement("album", tags[key].Album),
                                                                                                      new XElement("year", tags[key].Year),
