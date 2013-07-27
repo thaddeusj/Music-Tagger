@@ -43,7 +43,7 @@
         </Grid>
         <Menu Height="23" HorizontalAlignment="Left" Name="menu1" VerticalAlignment="Top" Width="74">
             <MenuItem Header="File">
-                <MenuItem Header="Options"/>
+                <MenuItem Header="Options" Click="menu_options_Click" />
                 <MenuItem Header="Quit" Name="menu_quit" Click="menu_quit_Click" />
             </MenuItem>
             <MenuItem Header="Help"/>

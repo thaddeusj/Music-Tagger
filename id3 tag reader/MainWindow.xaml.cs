@@ -52,6 +52,8 @@ namespace WpfApplication1
 
             xml_gen_button.IsEnabled = false;
 
+            application_settings.Initialise();
+
         }
 
         //private void button1_Click(object sender, RoutedEventArgs e)
@@ -347,6 +349,17 @@ namespace WpfApplication1
         {
             this.Close();
         }
+
+        private void menu_options_Click(object sender, RoutedEventArgs e)
+        {
+            
+            var options_window = new Options_Window();
+            options_window.ShowDialog();
+        }
+
+        
+
+        
 
 
     }

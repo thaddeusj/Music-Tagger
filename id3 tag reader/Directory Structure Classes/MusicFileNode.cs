@@ -61,6 +61,8 @@ namespace WpfApplication1.Directory_Structure_Classes
             }
         }
 
+        public string FileNameFormatted { set; get; }
+
         public MusicFileNode(string tit, string alb, string art, string yea, string tra, string path)
             : base(path)
         {
@@ -69,9 +71,11 @@ namespace WpfApplication1.Directory_Structure_Classes
             artist = art;
             year = yea;
             track = tra;
+
+            FileNameFormatted = FileName;
         }
 
-        public MusicFileNode(string path) : base(path) { ;}
+        public MusicFileNode(string path) : base(path) { FileNameFormatted = FileName;}
 
 
 

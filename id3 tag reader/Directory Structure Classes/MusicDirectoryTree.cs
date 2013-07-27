@@ -20,16 +20,16 @@ namespace WpfApplication1.Directory_Structure_Classes
 
     class MusicDirectoryTree : DirectoryTree
     {
-        public static List<string> fileExtensions;
+        
         private List<MusicFileNode> files;
 
-
+        
 
         //recursively adds subdirectories
         public MusicDirectoryTree(string path)
             : base(path)
         {
-
+            files = new List<MusicFileNode>();
 
             getFiles();
 
@@ -87,7 +87,7 @@ namespace WpfApplication1.Directory_Structure_Classes
 
         public override bool isFileAdmissible(string filePath)
         {
-            return fileExtensions.Contains(Path.GetExtension(filePath));
+            return application_settings.fileExtensions.Contains(Path.GetExtension(filePath));
         }
 
         public override void getFiles()

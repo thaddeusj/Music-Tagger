@@ -37,17 +37,6 @@ namespace WpfApplication1
             }
         }
 
-        public static void xml_read(string directory, out Dictionary<string, tagger> tags)
-        {
-
-
-
-
-
-            tags = new Dictionary<string, tagger>();
-        }
-
-
 
     }
 }

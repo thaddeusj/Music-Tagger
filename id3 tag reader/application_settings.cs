@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using WpfApplication1.Directory_Structure_Classes;
 
+
 namespace WpfApplication1
 {
 
@@ -30,15 +31,59 @@ namespace WpfApplication1
 
         private static List<MusicDirectoryTree> directoryForest;
 
+
+        //File types are, for now, '.mp3'
+        public static List<string> fileExtensions;
+
         private static int delim_length_largest = 2;
         const int MAX_DELIM_LENGTH = 2;
 
 
 
 
-        public static void addDirectory(string path)
+        public static bool addDirectory(string path)
         {
-            if (!(directoryForest.Select(x => x.DirectoryPath).Contains(path))) directoryForest.Add(new MusicDirectoryTree(path)); 
+            if (directoryForest == null || !(directoryForest.Select(x => x.DirectoryPath).Contains(path)))
+            {
+                bool isSubDir = false;
+
+                foreach (MusicDirectoryTree dt in directoryForest)
+                {
+                    if (path.Contains(dt.DirectoryPath))
+                    {
+                        isSubDir = true;
+                        break;
+                    }
+
+                }
+
+                
+                if (!isSubDir) 
+                { 
+                    
+
+                    var tempdirFor = directoryForest.ToList();
+
+                    foreach (MusicDirectoryTree dt in directoryForest)
+                    {
+                        if (dt.DirectoryPath.Contains(path))
+                        {
+                            tempdirFor.Remove(dt);
+                        }
+
+                    }
+
+                    directoryForest = tempdirFor;
+
+                    directoryForest.Add(new MusicDirectoryTree(path));
+
+                    return true; 
+                }
+
+                else return false;
+            }
+
+            return false;
 
         }
 
@@ -48,6 +93,23 @@ namespace WpfApplication1
 
         }
 
+        public static List<string> getDirectoryNames()
+        {
+
+            return directoryForest.Select(x => x.DirectoryPath).ToList();
+
+
+        }
+
+
+
+        public static void Initialise()
+        {
+            fileExtensions = new List<string>();
+            directoryForest = new List<MusicDirectoryTree>();
+
+            fileExtensions.Add(".mp3");
+        }
 
 
     }
