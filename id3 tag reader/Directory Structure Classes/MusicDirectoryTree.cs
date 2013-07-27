@@ -25,6 +25,23 @@ namespace WpfApplication1.Directory_Structure_Classes
 
 
 
+        //recursively adds subdirectories
+        public MusicDirectoryTree(string path)
+            : base(path)
+        {
+
+
+            getFiles();
+
+            foreach (string subDirPath in System.IO.Directory.GetDirectories(path))
+            {
+                addSubDir(new MusicDirectoryTree(subDirPath));
+            }
+
+        }
+
+
+
         /*
          * Adding files to the directory can be done in one of two ways:
          *      1) add the file, without metadata
@@ -71,6 +88,17 @@ namespace WpfApplication1.Directory_Structure_Classes
         public override bool isFileAdmissible(string filePath)
         {
             return fileExtensions.Contains(Path.GetExtension(filePath));
+        }
+
+        public override void getFiles()
+        {
+            foreach (string fileName in System.IO.Directory.GetFiles(DirectoryPath))
+            {
+                if (isFileAdmissible(fileName))
+                {
+                    addFile(fileName);
+                }
+            }
         }
 
     }

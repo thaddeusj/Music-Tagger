@@ -15,10 +15,13 @@ namespace WpfApplication1.Directory_Structure_Classes
      *      A DirectoryTree should be able to:
      *          -add and remove FileNodes from files
      *          -add and remove DirectoryTrees from subdirs
-     *          
      *                    
      *          -save the directory path
      *          -sort subdirectories by path
+     *          
+     * 
+     *      We would like a DirectoryTree to automatically add subdirectories,
+     *      and have those subdirectory add their subdirectories, etc.
      *          
      * Specific subclasses of DirectoryTree should be used for different types of files,
      * but subdirectory behavior can most likely be done in general
@@ -50,6 +53,9 @@ namespace WpfApplication1.Directory_Structure_Classes
         {
             subdirs = new List<DirectoryTree>();
             directoryPath = path;
+
+            //each directorytree should add subdirectories in constructor
+
         }
 
         public void addSubDir(DirectoryTree newSubDir)
@@ -69,6 +75,7 @@ namespace WpfApplication1.Directory_Structure_Classes
 
         //Abstract Functions
         abstract public bool isFileAdmissible(string filePath);
+        abstract public void getFiles();
 
        
     }
