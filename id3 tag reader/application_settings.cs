@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WpfApplication1.Directory_Structure_Classes;
+using System.IO;
 
 
 namespace WpfApplication1
@@ -23,11 +24,29 @@ namespace WpfApplication1
     public static class application_settings
     {
 
-        private static string track_delim = "%k";
-        private static string title_delim = "%t";
-        private static string artist_delim = "%r";
-        private static string album_delim = "%a";
-        private static string year_delim = "%y";
+        /*
+         * A note on delimiters: we require all delimiters to start with %, and they may not contain a ;
+         * 
+         * For now, delimiters must be two characters, the first being %.
+         *      TODO: implement variable delimiter lengths
+         * 
+         */
+
+        public static string Track_delim { get; set; }
+        public static string Title_delim { get; set; }
+        public static string Artist_delim { get; set; }
+        public static string Album_delim { get; set; }
+        public static string Year_delim { get; set; }
+
+        const string def_track_delim = "%k";
+        const string def_title_delim = "%t";
+        const string def_artist_delim = "%r";
+        const string def_album_delim = "%a";
+        const string def_year_delim = "%y";
+
+
+        private static string setting_file_name = "settings.ini";
+
 
         private static List<MusicDirectoryTree> directoryForest;
 
@@ -109,6 +128,53 @@ namespace WpfApplication1
             directoryForest = new List<MusicDirectoryTree>();
 
             fileExtensions.Add(".mp3");
+
+            Track_delim = def_track_delim;
+            Title_delim = def_title_delim;
+            Artist_delim = def_artist_delim;
+            Album_delim = def_album_delim;
+            Year_delim = def_year_delim;
+        }
+
+
+
+        /*
+         * saveSettings saves the application settings to setting_file_name
+         * 
+         *      Settings are saved in this order:
+         *          - Delimiters: artist;album;title;track;year
+         *          - File extensions: ext1;ext2;...
+         *          - Directory paths:
+         *                  path1\n
+         *                  path2\n
+         *                  path3\n
+         *                  ...
+         *          
+         * 
+         */
+
+
+        public static void saveSettings()
+        {
+
+            using (StreamWriter w = new StreamWriter(setting_file_name))
+            {
+
+                w.WriteLine(Artist_delim + ";" + Album_delim + ";" + Title_delim + ";" + Track_delim + ";" + Year_delim);
+
+                foreach (string s in fileExtensions)
+                {
+                    w.Write(s + ";");
+
+                }
+                w.Write("\n");
+
+                foreach (DirectoryTree dt in directoryForest)
+                {
+                    w.WriteLine(dt.DirectoryPath);
+                }
+
+            }
         }
 
 

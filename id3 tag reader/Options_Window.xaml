@@ -1,12 +1,30 @@
 ﻿<Window x:Class="WpfApplication1.Options_Window"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Window1" Height="404" Width="587">
+        Title="Window1" Height="467" Width="587">
     <Grid>
-        <Grid Height="365" HorizontalAlignment="Left" Name="grid1" VerticalAlignment="Top" Width="565">
+        <Grid Height="428" HorizontalAlignment="Left" Name="grid1" VerticalAlignment="Top" Width="565">
             <ListBox Height="224" HorizontalAlignment="Left" Margin="6,6,0,0" Name="directory_list" VerticalAlignment="Top" Width="472" />
             <Button Content="Remove" Height="23" HorizontalAlignment="Left" Margin="484,35,0,0" Name="remove_dir" VerticalAlignment="Top" Width="75" Click="remove_dir_Click" />
             <Button Content="Add" Height="23" HorizontalAlignment="Left" Margin="484,6,0,0" Name="add_dir" VerticalAlignment="Top" Width="75" Click="add_dir_Click" />
+            <Button Content="Save" Height="23" HorizontalAlignment="Left" Margin="403,399,0,0" Name="save_settings" VerticalAlignment="Top" Width="75" Click="save_settings_Click" />
+            <Button Content="Default" Height="23" HorizontalAlignment="Left" Margin="484,399,0,0" Name="default_settings" VerticalAlignment="Top" Width="75" />
+            <TextBox Height="23" HorizontalAlignment="Left" Margin="79,267,0,0" Name="artist_delim_box" VerticalAlignment="Top" Width="23" Text="" TextChanged="delim_box_changed" />
+            <TextBox Height="23" HorizontalAlignment="Left" Margin="79,296,0,0" Name="album_delim_box" VerticalAlignment="Top" Width="23"  />
+            <TextBox Height="23" HorizontalAlignment="Left" Margin="79,325,0,0" Name="title_delim_box" VerticalAlignment="Top" Width="23"  />
+            <TextBox Height="23" HorizontalAlignment="Left" Margin="79,354,0,0" Name="track_delim_box" VerticalAlignment="Top" Width="23"  />
+            <TextBox Height="23" HorizontalAlignment="Left" Margin="79,383,0,0" Name="year_delim_box" VerticalAlignment="Top" Width="23"  />
+            <Label Content="%" Height="23" HorizontalAlignment="Left" Margin="64,267,0,0" Name="label1" VerticalAlignment="Top" Width="19" />
+            <Label Content="%" Height="23" Margin="64,296,482,0" Name="label2" VerticalAlignment="Top" />
+            <Label Content="%" Height="23" HorizontalAlignment="Left" Margin="64,323,0,0" Name="label3" VerticalAlignment="Top" Width="19" />
+            <Label Content="%" Height="23" HorizontalAlignment="Left" Margin="64,354,0,0" Name="label4" VerticalAlignment="Top" Width="19" />
+            <Label Content="%" Height="23" HorizontalAlignment="Left" Margin="64,383,0,0" Name="label5" VerticalAlignment="Top" Width="19" />
+            <Label Content="Artist:" Height="23" HorizontalAlignment="Left" Margin="6,267,0,0" Name="label6" VerticalAlignment="Top" Width="40" />
+            <Label Content="Album:" Height="23" HorizontalAlignment="Left" Margin="6,296,0,0" Name="label7" VerticalAlignment="Top" Width="48" />
+            <Label Content="Title:" Height="23" HorizontalAlignment="Left" Margin="6,325,0,0" Name="label8" VerticalAlignment="Top" Width="40" />
+            <Label Content="Track:" Height="23" HorizontalAlignment="Left" Margin="6,352,0,0" Name="label9" VerticalAlignment="Top" Width="40" />
+            <Label Content="Year:" Height="23" HorizontalAlignment="Left" Margin="6,383,0,0" Name="label10" VerticalAlignment="Top" Width="40" />
+            <Label Content="Format Tokens" Height="26" HorizontalAlignment="Left" Margin="6,235,0,0" Name="label11" VerticalAlignment="Top" Width="87" />
         </Grid>
     </Grid>
 </Window>
