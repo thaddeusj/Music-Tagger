@@ -32,7 +32,7 @@ namespace WpfApplication1.Directory_Structure_Classes
      * 
      */ 
 
-    abstract class DirectoryTree : IComparable<DirectoryTree>
+    abstract public class DirectoryTree : IComparable<DirectoryTree>
     {
         private List<DirectoryTree> subdirs;
         private string directoryPath;

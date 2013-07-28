@@ -18,7 +18,7 @@ namespace WpfApplication1.Directory_Structure_Classes
      */
 
 
-    class MusicDirectoryTree : DirectoryTree
+    public class MusicDirectoryTree : DirectoryTree
     {
         
         private List<MusicFileNode> files;

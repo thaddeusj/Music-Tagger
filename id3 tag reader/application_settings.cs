@@ -38,11 +38,11 @@ namespace WpfApplication1
         public static string Album_delim { get; set; }
         public static string Year_delim { get; set; }
 
-        const string def_track_delim = "%k";
-        const string def_title_delim = "%t";
-        const string def_artist_delim = "%r";
-        const string def_album_delim = "%a";
-        const string def_year_delim = "%y";
+        public const string def_track_delim = "%k";
+        public const string def_title_delim = "%t";
+        public const string def_artist_delim = "%r";
+        public const string def_album_delim = "%a";
+        public const string def_year_delim = "%y";
 
 
         private static string setting_file_name = "settings.ini";
@@ -112,13 +112,13 @@ namespace WpfApplication1
 
         }
 
-        public static List<string> getDirectoryNames()
-        {
+        //public static List<string> getDirectoryNames()
+        //{
 
-            return directoryForest.Select(x => x.DirectoryPath).ToList();
+        //    return directoryForest.Select(x => x.DirectoryPath).ToList();
 
 
-        }
+        //}
 
 
 
@@ -127,13 +127,16 @@ namespace WpfApplication1
             fileExtensions = new List<string>();
             directoryForest = new List<MusicDirectoryTree>();
 
-            fileExtensions.Add(".mp3");
+            fileExtensions.Add("mp3");
 
-            Track_delim = def_track_delim;
-            Title_delim = def_title_delim;
-            Artist_delim = def_artist_delim;
-            Album_delim = def_album_delim;
-            Year_delim = def_year_delim;
+            if (!loadSettings())
+            {
+                Track_delim = def_track_delim;
+                Title_delim = def_title_delim;
+                Artist_delim = def_artist_delim;
+                Album_delim = def_album_delim;
+                Year_delim = def_year_delim;
+            }
         }
 
 
@@ -175,6 +178,66 @@ namespace WpfApplication1
                 }
 
             }
+        }
+
+        /*
+         * loadSettings loads the settings from setting_file_name following save scheme
+         * 
+         * 
+         */
+
+        public static bool loadSettings()
+        {
+            if (File.Exists(setting_file_name))
+            {
+                using (StreamReader r = new StreamReader(setting_file_name))
+                {
+                    string delim_line = r.ReadLine();
+                    char[] delim_line_sep = { ';' };
+
+                    string[] delims = delim_line.Split(delim_line_sep);
+                    Artist_delim = delims[0];
+                    Album_delim = delims[1];
+                    Title_delim = delims[2];
+                    Track_delim = delims[3];
+                    Year_delim = delims[4];
+
+
+                    string extensions_line = r.ReadLine();
+                    char[] extensions_line_sep = { ';' };
+
+                    fileExtensions = extensions_line.Split(extensions_line_sep).ToList();
+
+                    string dirPath;
+                    while ((dirPath = r.ReadLine()) != null)
+                    {
+                        if (Directory.Exists(dirPath))
+                        {
+                            addDirectory(dirPath);
+                        }
+                    }
+
+                }
+
+                return true;
+            }
+
+            else
+            {
+                return false;
+
+            }
+        }
+
+        public static void copyDirForest(List<MusicDirectoryTree> dirF)
+        {
+            directoryForest = dirF;
+        }
+
+        public static void copyDirForestOut(out List<MusicDirectoryTree> dirF)
+        {
+            dirF = new List<MusicDirectoryTree>();
+            dirF = directoryForest;
         }
 
 
