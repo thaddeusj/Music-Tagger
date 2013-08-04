@@ -132,7 +132,7 @@ namespace WpfApplication1
             fileExtensions = new List<string>();
             directoryForest = new MusicDirectoryTree();
 
-            fileExtensions.Add("mp3");
+            fileExtensions.Add(".mp3");
 
             if (!loadSettings())
             {
@@ -175,7 +175,7 @@ namespace WpfApplication1
                     w.Write(s + ";");
 
                 }
-                w.Write("\n");
+                w.WriteLine("");
 
                 foreach (DirectoryTree dt in directoryForest.Subdirs)
                 {
@@ -212,6 +212,7 @@ namespace WpfApplication1
                     char[] extensions_line_sep = { ';' };
 
                     fileExtensions = extensions_line.Split(extensions_line_sep).ToList();
+                    fileExtensions.Remove(fileExtensions[fileExtensions.Count-1]); //because of how saving is done, the line ends in a ;, so we need to remove the last element of the list, which is a  ""
 
                     string dirPath;
                     while ((dirPath = r.ReadLine()) != null)

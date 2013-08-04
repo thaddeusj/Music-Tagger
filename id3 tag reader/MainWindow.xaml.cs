@@ -366,6 +366,17 @@ namespace WpfApplication1
 
         }
 
+        private void treeView1_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+
+            file_listview.ItemsSource = ((WpfApplication1.Directory_Structure_Classes.MusicDirectoryTree)((TreeView)sender).SelectedItem).Files;
+
+            int i = 0;
+            i++;
+
+
+        }
+
         
 
         

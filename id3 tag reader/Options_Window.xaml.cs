@@ -206,7 +206,7 @@ namespace WpfApplication1
 
         public static bool addDirectory(string path)
         {
-            if (directoryForest == null || !(directoryForest.Subdirs.Select(x => x.DirectoryPath).Contains(path)))
+            if (!(directoryForest.Subdirs.Select(x => x.DirectoryPath).Contains(path)))
             {
                 bool isSubDir = false;
 
