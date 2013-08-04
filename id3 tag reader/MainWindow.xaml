@@ -58,7 +58,7 @@
             <Label Content="Directories" Grid.Row="1" Height="24" HorizontalAlignment="Left" Margin="824,78,0,0" VerticalAlignment="Top" Width="159" />
             <TreeView Grid.Row="1" Height="330" HorizontalAlignment="Left" Margin="824,109,0,0" Name="treeView1" VerticalAlignment="Top" Width="535" Loaded="treeView1_Loaded">
                 <TreeView.ItemTemplate>
-                    <HierarchicalDataTemplate ItemsSource="{Binding Path=SubDirs}">
+                    <HierarchicalDataTemplate ItemsSource="{Binding Path=Subdirs}">
 
                         <TextBlock Text="{Binding Path=DirectoryPath}"/>
 

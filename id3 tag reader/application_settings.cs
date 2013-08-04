@@ -55,7 +55,7 @@ namespace WpfApplication1
         //File types are, for now, '.mp3'
         public static List<string> fileExtensions;
 
-        private static int delim_length_largest = 2;
+        //private static int delim_length_largest = 2;
         const int MAX_DELIM_LENGTH = 2;
 
 
