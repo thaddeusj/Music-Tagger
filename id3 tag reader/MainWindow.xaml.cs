@@ -53,7 +53,7 @@ namespace WpfApplication1
             xml_gen_button.IsEnabled = false;
 
             application_settings.Initialise();
-
+            treeView1.DataContext = application_settings.directoryForest;
         }
 
         //private void button1_Click(object sender, RoutedEventArgs e)
@@ -356,6 +356,19 @@ namespace WpfApplication1
             var options_window = new Options_Window();
             options_window.ShowDialog();
         }
+
+        private void treeView1_Loaded(object sender, RoutedEventArgs e)
+        {
+
+
+
+
+
+        }
+
+        
+
+        
 
         
 

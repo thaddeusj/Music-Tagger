@@ -9,6 +9,8 @@ using System.ComponentModel;
 
 namespace WpfApplication1
 {
+    
+
     public class tagger : INotifyPropertyChanged
     {
 
@@ -175,9 +177,15 @@ namespace WpfApplication1
 
                     byte version = b.ReadByte();
 
-                    b.ReadByte(); b.ReadByte(); //we ignore the second version byte and flag 
+                    b.ReadByte(); 
 
-                    if (version == 4) read_ID3_2point4(b);
+                    
+                    
+                    byte flag = b.ReadByte(); //we ignore the second version byte and flag
+                    bool hasFooter = ((flag & (byte)16) == (byte)16) ? true : false;
+                    bool unsync = ((flag & 128) == 128) ? true : false;
+
+                    if (version == 4 && !hasFooter) read_ID3_2point4(b);
                 }
             }
         }

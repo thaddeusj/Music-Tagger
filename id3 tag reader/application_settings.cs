@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using WpfApplication1.Directory_Structure_Classes;
@@ -48,7 +49,7 @@ namespace WpfApplication1
         private static string setting_file_name = "settings.ini";
 
 
-        private static List<MusicDirectoryTree> directoryForest;
+        public static MusicDirectoryTree directoryForest;
 
 
         //File types are, for now, '.mp3'
@@ -62,11 +63,11 @@ namespace WpfApplication1
 
         public static bool addDirectory(string path)
         {
-            if (directoryForest == null || !(directoryForest.Select(x => x.DirectoryPath).Contains(path)))
+            if (directoryForest == null || !(directoryForest.Subdirs.Select(x => x.DirectoryPath).Contains(path)))
             {
                 bool isSubDir = false;
 
-                foreach (MusicDirectoryTree dt in directoryForest)
+                foreach (MusicDirectoryTree dt in directoryForest.Subdirs)
                 {
                     if (path.Contains(dt.DirectoryPath))
                     {
@@ -78,23 +79,27 @@ namespace WpfApplication1
 
                 
                 if (!isSubDir) 
-                { 
-                    
+                {
 
-                    var tempdirFor = directoryForest.ToList();
 
-                    foreach (MusicDirectoryTree dt in directoryForest)
+                    ObservableCollection<MusicDirectoryTree> tempdirFor = new ObservableCollection<MusicDirectoryTree>();
+
+                    foreach (MusicDirectoryTree dt in directoryForest.Subdirs)
                     {
-                        if (dt.DirectoryPath.Contains(path))
+                        if (!dt.DirectoryPath.Contains(path))
                         {
-                            tempdirFor.Remove(dt);
+                            tempdirFor.Add(dt);
                         }
 
                     }
 
-                    directoryForest = tempdirFor;
+                    directoryForest.Subdirs.Clear();
+                    foreach (MusicDirectoryTree dt in tempdirFor)
+                    {
+                        directoryForest.Subdirs.Add(dt);
+                    }
 
-                    directoryForest.Add(new MusicDirectoryTree(path));
+                    directoryForest.Subdirs.Add(new MusicDirectoryTree(path));
 
                     return true; 
                 }
@@ -108,7 +113,7 @@ namespace WpfApplication1
 
         public static void removeDirectory(string path)
         {
-            directoryForest = directoryForest.Where(x => x.DirectoryPath != path).ToList();
+            directoryForest.Subdirs = new ObservableCollection<DirectoryTree>(directoryForest.Subdirs.Where(x => x.DirectoryPath != path).ToList());
 
         }
 
@@ -125,7 +130,7 @@ namespace WpfApplication1
         public static void Initialise()
         {
             fileExtensions = new List<string>();
-            directoryForest = new List<MusicDirectoryTree>();
+            directoryForest = new MusicDirectoryTree();
 
             fileExtensions.Add("mp3");
 
@@ -172,7 +177,7 @@ namespace WpfApplication1
                 }
                 w.Write("\n");
 
-                foreach (DirectoryTree dt in directoryForest)
+                foreach (DirectoryTree dt in directoryForest.Subdirs)
                 {
                     w.WriteLine(dt.DirectoryPath);
                 }
@@ -229,16 +234,16 @@ namespace WpfApplication1
             }
         }
 
-        public static void copyDirForest(List<MusicDirectoryTree> dirF)
-        {
-            directoryForest = dirF;
-        }
+        //public static void copyDirForest(List<MusicDirectoryTree> dirF)
+        //{
+        //    directoryForest = dirF;
+        //}
 
-        public static void copyDirForestOut(out List<MusicDirectoryTree> dirF)
-        {
-            dirF = new List<MusicDirectoryTree>();
-            dirF = directoryForest;
-        }
+        //public static void copyDirForestOut(out List<MusicDirectoryTree> dirF)
+        //{
+        //    dirF = new List<MusicDirectoryTree>();
+        //    dirF = directoryForest;
+        //}
 
 
     }

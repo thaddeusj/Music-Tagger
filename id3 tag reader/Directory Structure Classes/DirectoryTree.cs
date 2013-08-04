@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections.ObjectModel;
 
 namespace WpfApplication1.Directory_Structure_Classes
 {
@@ -34,7 +35,21 @@ namespace WpfApplication1.Directory_Structure_Classes
 
     abstract public class DirectoryTree : IComparable<DirectoryTree>
     {
-        private List<DirectoryTree> subdirs;
+        private ObservableCollection<DirectoryTree> subdirs;
+        public ObservableCollection<DirectoryTree> Subdirs
+        {
+            get { return subdirs; }
+            set { subdirs = value; }
+
+        }
+
+        private DirectoryTree parent;
+        public DirectoryTree Parent
+        {
+            set { parent = value; }
+            get { return parent; }
+        }
+
         private string directoryPath;
 
         public string DirectoryPath
@@ -45,14 +60,15 @@ namespace WpfApplication1.Directory_Structure_Classes
 
         public DirectoryTree()
         {
-            subdirs = new List<DirectoryTree>();
+            subdirs = new ObservableCollection<DirectoryTree>();
             directoryPath = "";
         }
 
         public DirectoryTree(string path)
         {
-            subdirs = new List<DirectoryTree>();
+            subdirs = new ObservableCollection<DirectoryTree>();
             directoryPath = path;
+            parent = null;
 
             //each directorytree should add subdirectories in constructor
 
@@ -61,6 +77,7 @@ namespace WpfApplication1.Directory_Structure_Classes
         public void addSubDir(DirectoryTree newSubDir)
         {
             if (!subdirs.Contains(newSubDir)) { subdirs.Add(newSubDir); }
+            newSubDir.parent = this;
         }
 
 

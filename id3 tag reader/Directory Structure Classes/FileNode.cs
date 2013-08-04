@@ -20,7 +20,7 @@ namespace WpfApplication1.Directory_Structure_Classes
      * 
      */
     
-    abstract class FileNode : IComparable<FileNode>
+    abstract public class FileNode : IComparable<FileNode>
     {
         public string FileName { set; get; }
 

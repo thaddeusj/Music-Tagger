@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WpfApplication1.Directory_Structure_Classes
 {
-    class MusicFileNode : FileNode
+    public class MusicFileNode : FileNode
     {
 
         private string title;

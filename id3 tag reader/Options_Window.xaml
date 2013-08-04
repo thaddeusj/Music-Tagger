@@ -3,8 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Window1" Height="467" Width="587">
     <Grid>
-        <Grid Height="428" HorizontalAlignment="Left" Name="grid1" VerticalAlignment="Top" Width="565">
-            <ListBox Height="224" HorizontalAlignment="Left" Margin="6,6,0,0" Name="directory_list" VerticalAlignment="Top" Width="472" />
+        <Grid Height="428" HorizontalAlignment="Left" Name="grid1" VerticalAlignment="Top" Width="565" >
+            <Grid.Resources>
+                <DataTemplate x:Key="DirectoryTemplate">
+                    <WrapPanel>
+                        <TextBlock Text="{Binding Path=DirectoryPath}"/>
+                    </WrapPanel>
+                </DataTemplate>
+            </Grid.Resources>
+            
+            <ListBox Height="224" HorizontalAlignment="Left" Margin="6,6,0,0" Name="directory_list" VerticalAlignment="Top" Width="472" ItemsSource="{Binding}"
+                     ItemTemplate="{StaticResource DirectoryTemplate}"/>
             <Button Content="Remove" Height="23" HorizontalAlignment="Left" Margin="484,35,0,0" Name="remove_dir" VerticalAlignment="Top" Width="75" Click="remove_dir_Click" />
             <Button Content="Add" Height="23" HorizontalAlignment="Left" Margin="484,6,0,0" Name="add_dir" VerticalAlignment="Top" Width="75" Click="add_dir_Click" />
             <Button Content="OK" Height="23" HorizontalAlignment="Left" Margin="322,399,0,0" Name="save_settings" VerticalAlignment="Top" Width="75" Click="save_settings_Click" />

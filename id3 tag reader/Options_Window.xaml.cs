@@ -1,8 +1,6 @@
-﻿
-
-
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -38,14 +36,15 @@ namespace WpfApplication1
         public static string Album_delim { get; set; }
         public static string Year_delim { get; set; }
 
-        private static List<MusicDirectoryTree> directoryForest;
+        private static MusicDirectoryTree directoryForest;
 
 
         public Options_Window()
         {
             InitializeComponent();
 
-            application_settings.copyDirForestOut(out directoryForest);
+            directoryForest = new MusicDirectoryTree();
+            directoryForest.Subdirs = new ObservableCollection<DirectoryTree>(application_settings.directoryForest.Subdirs);
             
             Track_delim = application_settings.Track_delim;
             Title_delim = application_settings.Title_delim;
@@ -59,7 +58,7 @@ namespace WpfApplication1
             artist_delim_box.Text = Artist_delim[1].ToString();
             title_delim_box.Text = Title_delim[1].ToString();
 
-
+            directory_list.ItemsSource = directoryForest.Subdirs;
         }
 
         private void add_dir_Click(object sender, RoutedEventArgs e)
@@ -77,10 +76,7 @@ namespace WpfApplication1
             
             if (dialog.ShowDialog() == Microsoft.WindowsAPICodePack.Dialogs.CommonFileDialogResult.Ok)
             {
-                if (addDirectory(dialog.FileName))
-                {
-                    directory_list.ItemsSource = directoryForest.Select(x => x.DirectoryPath);
-                }
+                addDirectory(dialog.FileName);
             }
 
 
@@ -92,9 +88,11 @@ namespace WpfApplication1
             if (directory_list.SelectedItem != null)
             {
 
-                directoryForest = directoryForest.Where(x => x.DirectoryPath != directory_list.SelectedItem.ToString()).ToList();
+                //This LINQ query doesn't work. Need to remove it the old fashioned way.
+                //directoryForest = (ObservableCollection<MusicDirectoryTree>)directoryForest.Where(x => x.DirectoryPath != directory_list.SelectedItem.ToString());
                 //application_settings.removeDirectory(directory_list.SelectedItem.ToString());
-                directory_list.Items.Remove(directory_list.SelectedItem);
+
+                directoryForest.Subdirs.Remove((MusicDirectoryTree)directory_list.SelectedItem);
 
             }
         }
@@ -108,7 +106,12 @@ namespace WpfApplication1
             application_settings.Track_delim = Track_delim;
             application_settings.Year_delim = Year_delim;
 
-            application_settings.copyDirForest(directoryForest);
+            //need to copy directoryForest over manually to trigger binding updates
+            application_settings.directoryForest.Subdirs.Clear();
+            foreach (MusicDirectoryTree dt in directoryForest.Subdirs)
+            {
+                application_settings.directoryForest.Subdirs.Add(dt);
+            }
 
 
             application_settings.saveSettings();
@@ -203,11 +206,11 @@ namespace WpfApplication1
 
         public static bool addDirectory(string path)
         {
-            if (directoryForest == null || !(directoryForest.Select(x => x.DirectoryPath).Contains(path)))
+            if (directoryForest == null || !(directoryForest.Subdirs.Select(x => x.DirectoryPath).Contains(path)))
             {
                 bool isSubDir = false;
 
-                foreach (MusicDirectoryTree dt in directoryForest)
+                foreach (MusicDirectoryTree dt in directoryForest.Subdirs)
                 {
                     if (path.Contains(dt.DirectoryPath))
                     {
@@ -222,20 +225,24 @@ namespace WpfApplication1
                 {
 
 
-                    var tempdirFor = directoryForest.ToList();
+                    ObservableCollection<MusicDirectoryTree> tempdirFor = new ObservableCollection<MusicDirectoryTree>();
 
-                    foreach (MusicDirectoryTree dt in directoryForest)
+                    foreach (MusicDirectoryTree dt in directoryForest.Subdirs)
                     {
-                        if (dt.DirectoryPath.Contains(path))
+                        if (!dt.DirectoryPath.Contains(path))
                         {
-                            tempdirFor.Remove(dt);
+                            tempdirFor.Add(dt);
                         }
 
                     }
 
-                    directoryForest = tempdirFor;
+                    directoryForest.Subdirs.Clear();
+                    foreach (MusicDirectoryTree dt in tempdirFor)
+                    {
+                        directoryForest.Subdirs.Add(dt);
+                    }
 
-                    directoryForest.Add(new MusicDirectoryTree(path));
+                    directoryForest.Subdirs.Add(new MusicDirectoryTree(path));
 
                     return true;
                 }

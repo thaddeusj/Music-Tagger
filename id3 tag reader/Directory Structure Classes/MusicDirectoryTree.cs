@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Collections.ObjectModel;
 
 namespace WpfApplication1.Directory_Structure_Classes
 {
@@ -21,15 +22,23 @@ namespace WpfApplication1.Directory_Structure_Classes
     public class MusicDirectoryTree : DirectoryTree
     {
         
-        private List<MusicFileNode> files;
+        private ObservableCollection<MusicFileNode> files;
+        public ObservableCollection<MusicFileNode> Files
+        {
+            set { files = value; }
+            get { return files; }
+        }
 
         
 
         //recursively adds subdirectories
+
+        public MusicDirectoryTree() : base() { }
+
         public MusicDirectoryTree(string path)
             : base(path)
         {
-            files = new List<MusicFileNode>();
+            files = new ObservableCollection<MusicFileNode>();
 
             getFiles();
 
@@ -81,7 +90,7 @@ namespace WpfApplication1.Directory_Structure_Classes
 
         public void removeFile(string path)
         {
-            files = files.Where(x => x.FileName != path).ToList();
+            files =new ObservableCollection<MusicFileNode>((files.Where(x => x.FileName != path).ToList()));
 
         }
 
